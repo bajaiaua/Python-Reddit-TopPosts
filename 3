@@ -1,0 +1,21 @@
+# Пример кода на Python
+import requests
+
+def get_reddit_posts(subreddit):
+    """Функция для получения популярных постов с Reddit"""
+    url = f"https://www.reddit.com/r/{subreddit}/top.json?sort=top&t=week"
+    headers = {"User-Agent": "Mozilla/5.0"}  # Установка заголовка User-Agent для имитации браузера
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        data = response.json()
+        posts = data["data"]["children"]
+        for post in posts:
+            title = post["data"]["title"]
+            score = post["data"]["score"]
+            print(f"Title: {title} | Score: {score}")
+    else:
+        print("Ошибка при получении данных с Reddit")
+
+subreddit = input("Введите название subreddit: ")
+get_reddit_posts(subreddit)
